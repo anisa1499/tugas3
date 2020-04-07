@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var nim = decodeURI(getUrlVars()["nim"]);
+        var nama = decodeURI(getUrlVars()["nama"]);
+        var progdi = decodeURI(getUrlVars()["program studi"]);
+        var judul = decodeURI(getUrlVars()["judul"]);
+        $("#nim").val(nim);
+        $("#nama").val(nama);
+        $("#progdi").val(progdi);
+        $("#judul").val(judul);
+        $("#update").click(function() {
+            var nim = $("#id").val();
+            var nama = $("#nama").val();
+            var progdi = $("#progdi").val();
+            var judul = $("#judul").val();
+            var dataString = "nim=" + nim + "&nama=" + nama + "&progdi=" + progdi + "&judul=" + judul + "&update=";
+            $.ajax({
+                type: "POST",
+                url: "https://ansadewiprtiwi999.000webhostapp.com/update.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#update").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Updated");
+                        $("#update").val("Update");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+        $("#delete").click(function() {
+            var id = $("#nim").val();
+            var dataString = "nim=" + nim + "&delete=";
+            $.ajax({
+                type: "GET",
+                url: "https://ansadewiprtiwi999.000webhostapp.com/delete.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#delete").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Deleted");
+                        $("#delete").val("Delete");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Update Database</h1>
+        <a class="button button-clear" href="readjson.html">Read JSON</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+        <input type="hidden" id="nim" value="" />
+        <div class="item">
+            <label>Nama</label>
+            <input type="text" id="nama" value="" />
+        </div>
+        <div class="item">
+            <label>Progdi</label>
+            <input type="text" id="progdi" value="" />
+        </div>
+        <div class="item">
+            <label>Judul</label>
+            <input type="text" id="judul" value="" />
+        </div>
+        <div class="item">
+            <input type="button" id="update" class="button button-block" value="Update" />
+            <input type="button" id="delete" class="button button-block" value="Delete" />
+        </div>
+    </div>
+</body>
+
+</html>
